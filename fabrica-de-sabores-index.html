@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fábrica de Sabores | Tabela Nutricional</title>
+<style>
+:root{--bg:#f6f3f8;--panel:#fff;--ink:#20202a;--muted:#657080;--line:#ded8e6;--brand:#6b4384;--brand2:#49305f;--soft:#f0e8f6;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,#241a36,#39264c);color:#fff;padding:18px max(18px,calc((100% - 1120px)/2));text-align:center;border-bottom:3px solid #c7a66a}
+header .brand-logo{display:block;width:150px;height:150px;object-fit:contain;border-radius:10px;border:2px solid #d7bd83;margin:0 auto 10px;box-shadow:0 4px 16px #0005}header h1{margin:0;font-size:27px;letter-spacing:.4px;text-transform:uppercase}header p{margin:5px 0 0;color:#eadcf4}
+main{max-width:1120px;margin:22px auto;padding:0 16px 42px;display:grid;grid-template-columns: minmax(0,1fr) minmax(320px,.9fr);gap:18px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 3px 12px #17203308;margin-bottom:16px}
+h2{font-size:18px;margin:0 0 14px}h3{font-size:15px;margin:16px 0 8px}
+label{display:block;font-size:13px;font-weight:650;margin:10px 0 5px}
+input,select,textarea,button{font:inherit}input,select,textarea{width:100%;padding:10px 11px;border:1px solid #cbd2dc;border-radius:9px;background:white;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid #a5d7bd;border-color:var(--brand)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1.4fr .7fr .9fr;gap:8px}
+button{border:0;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:700}
+.primary{background:var(--brand);color:white}.primary:hover{background:var(--brand2)}.secondary{background:var(--soft);color:var(--brand2);border:1px solid #c7e6d5}.ghost{background:#f0f2f5;color:#313a46}.danger{background:#fff0ef;color:var(--danger)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.ingredient-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 38px;gap:7px;margin:8px 0;align-items:center}.ingredient-row select,.ingredient-row input{padding:9px}.remove{padding:8px 0}
+.small{font-size:12px;color:var(--muted)}.notice{background:#fff8e7;border:1px solid #f1d99d;padding:11px 12px;border-radius:10px;font-size:12px;color:#634c12}
+.saved-list{display:flex;flex-direction:column;gap:7px}.saved-item{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:9px}.saved-item button:first-child{flex:1;text-align:left;background:transparent;padding:5px;color:var(--ink)}.saved-item .sub{font-size:12px;color:var(--muted);font-weight:400}
+.preview-wrap{position:sticky;top:12px}.label-paper{background:#fff;color:#111;border:2px solid #111;padding:14px;max-width:470px;margin:0 auto;font-family:Arial,Helvetica,sans-serif}
+.label-paper h2{font-size:24px;line-height:1.05;margin:0 0 5px;font-weight:900;letter-spacing:-.6px}
+.label-paper .subline{font-size:11px;border-bottom:7px solid #111;padding:0 0 5px;margin-bottom:5px}
+.serving{font-size:12px;padding:4px 0;border-bottom:1px solid #111}
+.nutri-table{width:100%;border-collapse:collapse;font-size:12px}.nutri-table th{text-align:right;font-weight:700}.nutri-table th:first-child{text-align:left}.nutri-table td,.nutri-table th{padding:5px 3px;border-bottom:1px solid #aaa}.nutri-table .energy td{font-weight:800;border-bottom:3px solid #111}.nutri-table .section td{font-weight:700;border-bottom:1px solid #111}.nutri-table td:not(:first-child){text-align:right;white-space:nowrap}.nutri-table .indent td:first-child{padding-left:16px}.foot{font-size:9px;line-height:1.35;margin-top:7px;color:#222}
+.preview-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+#status{min-height:18px;color:var(--brand2);font-size:12px;margin-top:8px}
+footer{max-width:1120px;margin:-20px auto 0;padding:0 16px 24px;color:var(--muted);font-size:12px}
+@media(max-width:820px){main{grid-template-columns:1fr}.preview-wrap{position:static}.grid3{grid-template-columns:1fr 80px 38px}}
+</style>
+</head>
+<body>
+<header><img class="brand-logo" src="data:image/jpeg;base64,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" alt="Logo Fábrica de Sabores"><h1>Fábrica de Sabores</h1><p>Tabela nutricional • Bolos • Salgados • Docinhos</p></header>
+<main>
+<section>
+  <div class="panel">
+    <h2>1. Sua receita</h2>
+    <label for="recipeName">Nome do produto/receita</label><input id="recipeName" placeholder="Ex.: Bolo de chocolate da casa">
+    <div class="grid2">
+      <div><label for="productType">Tipo de produto</label><select id="productType"><option value="bolo">Bolo inteiro / fatia</option><option value="salgado">Salgado de festa</option><option value="docinho">Docinho</option><option value="outro">Outro produto</option></select></div>
+      <div><label for="preparation">Preparo</label><select id="preparation"><option value="na">Não se aplica / outro</option><option value="assado">Assado</option><option value="frito">Frito</option><option value="cozido">Cozido</option><option value="sem-preparo">Sem preparo final</option></select></div>
+    </div>
+    <div class="grid2">
+      <div><label for="yieldGrams">Peso final pronto (g)</label><input id="yieldGrams" type="number" min="1" step="1" placeholder="Ex.: 1200"></div>
+      <div><label for="portionGrams">Porção usada no cálculo (g)</label><input id="portionGrams" type="number" min="1" step="1" value="60"></div>
+    </div>
+    <div class="grid2">
+      <div><label for="unitWeight">Peso de cada unidade (g)</label><input id="unitWeight" type="number" min="1" step="any" placeholder="Ex.: 25"></div>
+      <div><label for="packageCount">Unidades por embalagem</label><input id="packageCount" type="number" min="1" step="1" placeholder="Ex.: 12"></div>
+    </div>
+    <p class="small">Informe o peso final do produto pronto, sem embalagem. Para salgados fritos, pese depois de fritar e escorrer; para bolos, pese depois de assar e esfriar. O peso final afeta os valores por 100 g.</p>
+    <h3>Ingredientes</h3>
+    <div id="ingredients"></div>
+    <button class="secondary" id="addIngredient">＋ Adicionar ingrediente</button>
+    <div class="actions">
+      <button class="primary" id="saveRecipe">Salvar receita</button>
+      <button class="ghost" id="newRecipe">Nova receita</button>
+    </div>
+    <div id="status" aria-live="polite"></div>
+  </div>
+  <div class="panel">
+    <h2>2. Ingredientes personalizados</h2>
+    <p class="small">Se um ingrediente não estiver na lista, cadastre os nutrientes do rótulo ou de uma fonte confiável. Valores informados por 100 g (ou 100 ml para líquidos medidos por volume).</p>
+    <label for="customName">Nome do ingrediente</label><input id="customName" placeholder="Ex.: Chocolate em pó marca X">
+    <div class="grid3">
+      <div><label for="cKcal">Energia (kcal)</label><input id="cKcal" type="number" min="0" step="any" placeholder="Ex.: 380"></div>
+      <div><label for="cCarb">Carboidratos (g)</label><input id="cCarb" type="number" min="0" step="any"></div>
+      <div><label for="cProtein">Proteínas (g)</label><input id="cProtein" type="number" min="0" step="any"></div>
+    </div>
+    <div class="grid3">
+      <div><label for="cFat">Gorduras totais (g)</label><input id="cFat" type="number" min="0" step="any"></div>
+      <div><label for="cSat">Gorduras saturadas (g)</label><input id="cSat" type="number" min="0" step="any"></div>
+      <div><label for="cTrans">Gorduras trans (g)</label><input id="cTrans" type="number" min="0" step="any"></div>
+    </div>
+    <div class="grid3">
+      <div><label for="cFiber">Fibra alimentar (g)</label><input id="cFiber" type="number" min="0" step="any"></div>
+      <div><label for="cSugar">Açúcares totais (g)</label><input id="cSugar" type="number" min="0" step="any"></div>
+      <div><label for="cAdded">Açúcares adicionados (g)</label><input id="cAdded" type="number" min="0" step="any"></div>
+    </div>
+    <label for="cSodium">Sódio (mg)</label><input id="cSodium" type="number" min="0" step="any">
+    <div class="actions"><button class="secondary" id="addCustom">Salvar ingrediente personalizado</button></div>
+    <p class="small">Os campos em branco serão tratados como zero, portanto preencha os dados disponíveis. Confira a unidade e a base de referência antes de salvar.</p>
+  </div>
+  <div class="panel">
+    <h2>3. Receitas salvas</h2>
+    <div id="savedRecipes" class="saved-list"><p class="small">Nenhuma receita salva ainda.</p></div>
+    <div class="actions"><button class="ghost" id="exportBackup">Exportar backup JSON</button><button class="ghost" id="importBackupBtn">Importar backup</button><input id="importBackup" type="file" accept=".json,application/json" hidden></div>
+    <p class="small">Os dados ficam neste navegador/dispositivo. Exporte um backup para não perder suas receitas ao limpar os dados do navegador.</p>
+  </div>
+</section>
+<section class="preview-wrap">
+  <div class="panel">
+    <h2>Prévia da tabela</h2>
+    <div id="nutritionLabel" class="label-paper">
+      <h2>INFORMAÇÃO NUTRICIONAL</h2>
+      <div class="subline" id="labelProduct">Receita não selecionada</div>
+      <div class="serving" id="servingText">Porções por embalagem: —<br>Porção: 60 g</div>
+      <table class="nutri-table" id="nutriTable">
+        <thead><tr><th>Quantidade por porção</th><th>100 g</th><th>%VD*</th></tr></thead>
+        <tbody><tr><td colspan="3">Adicione ingredientes para calcular.</td></tr></tbody>
+      </table>
+      <div class="foot">*Percentual de valores diários fornecidos pela porção. Valores de referência e arredondamentos devem ser conferidos conforme as normas vigentes da Anvisa. Cálculo estimado a partir dos dados cadastrados.</div>
+    </div>
+    <div class="preview-actions">
+      <button class="primary" id="downloadPng">Baixar tabela PNG</button>
+      <button class="secondary" id="printLabel">Imprimir</button>
+    </div>
+    <p class="small">O PNG é gerado no navegador. Confira o texto e os números antes de usar. A imagem não substitui revisão regulatória.</p>
+  </div>
+  <div class="panel">
+    <h2>Como usar</h2>
+    <ol class="small" style="padding-left:19px;line-height:1.8">
+      <li>Escolha a categoria do produto e o modo de preparo, quando aplicável.</li>
+      <li>Informe o peso final pronto, a porção e, se necessário, o peso por unidade e a quantidade por embalagem.</li>
+      <li>Adicione cada ingrediente e a quantidade usada na receita em gramas.</li>
+      <li>Confira a prévia e exporte PNG ou imprima. Os dados salvos no navegador continuam locais.</li>
+    </ol>
+    <div class="notice"><b>Atenção:</b> esta versão é uma ferramenta pessoal de estimativa. A base inicial é pequena e não substitui a Tabela Brasileira de Composição de Alimentos (TACO), TBCA, rótulos dos fabricantes ou análise laboratorial. Esta prévia é uma estimativa e não comprova conformidade com a Anvisa. Antes de vender, valide ingredientes, arredondamentos, porções e demais informações obrigatórias para a categoria do produto.</div>
+  </div>
+</section>
+</main>
+<footer>Fábrica de Sabores • Os dados são armazenados localmente neste navegador. Não há envio automático de receitas para servidores.</footer>
+<script>
+const DB_KEY='nutribolo_recipes_v1', CUSTOM_KEY='nutribolo_custom_foods_v1';
+const baseFoods = [
+ {id:'flour',name:'Farinha de trigo',kcal:360,carb:75.1,protein:9.8,fat:1.4,sat:0.3,trans:0,fiber:2.3,sugar:0.3,added:0,sodium:1},
+ {id:'sugar',name:'Açúcar refinado',kcal:387,carb:100,protein:0,fat:0,sat:0,trans:0,fiber:0,sugar:100,added:100,sodium:1},
+ {id:'egg',name:'Ovo inteiro cru',kcal:143,carb:0.7,protein:12.6,fat:9.5,sat:3.1,trans:0,fiber:0,sugar:0.4,added:0,sodium:142},
+ {id:'milk',name:'Leite integral',kcal:61,carb:4.8,protein:3.2,fat:3.3,sat:1.9,trans:0.1,fiber:0,sugar:5,added:0,sodium:43},
+ {id:'oil',name:'Óleo de soja',kcal:884,carb:0,protein:0,fat:100,sat:15.2,trans:0,fiber:0,sugar:0,added:0,sodium:0},
+ {id:'butter',name:'Manteiga com sal',kcal:717,carb:0.1,protein:0.9,fat:81.1,sat:51.4,trans:3.3,fiber:0,sugar:0.1,added:0,sodium:643},
+ {id:'cocoa',name:'Cacau em pó sem açúcar',kcal:228,carb:57.9,protein:19.6,fat:13.7,sat:8.1,trans:0,fiber:37,sugar:1.8,added:0,sodium:21},
+ {id:'chocolate',name:'Chocolate em pó adoçado (estimativa)',kcal:380,carb:85,protein:4,fat:3,sat:1.8,trans:0,fiber:4,sugar:70,added:65,sodium:150},
+ {id:'condensed',name:'Leite condensado',kcal:321,carb:54.4,protein:7.7,fat:8.7,sat:5.4,trans:0.2,fiber:0,sugar:54,added:0,sodium:127},
+ {id:'cream',name:'Creme de leite (estimativa)',kcal:200,carb:4,protein:2.5,fat:20,sat:12,trans:0.5,fiber:0,sugar:3,added:0,sodium:70},
+ {id:'yeast',name:'Fermento químico em pó',kcal:53,carb:27,protein:0.5,fat:0.1,sat:0,trans:0,fiber:0,sugar:0,added:0,sodium:10600},
+ {id:'banana',name:'Banana prata crua',kcal:98,carb:26,protein:1.3,fat:0.1,sat:0,trans:0,fiber:2,sugar:12,added:0,sodium:0},
+ {id:'carrot',name:'Cenoura crua',kcal:34,carb:7.7,protein:1.3,fat:0.2,sat:0,trans:0,fiber:3.2,sugar:4.7,added:0,sodium:3},
+ {id:'oats',name:'Aveia em flocos',kcal:394,carb:66.6,protein:13.9,fat:8.5,sat:1.5,trans:0,fiber:9.1,sugar:1,added:0,sodium:5},
+ {id:'coconut',name:'Coco ralado seco sem açúcar',kcal:660,carb:23.7,protein:6.9,fat:64.5,sat:57.2,trans:0,fiber:16.3,sugar:7.4,added:0,sodium:37},
+ {id:'salt',name:'Sal refinado',kcal:0,carb:0,protein:0,fat:0,sat:0,trans:0,fiber:0,sugar:0,added:0,sodium:38758},
+ {id:'water',name:'Água',kcal:0,carb:0,protein:0,fat:0,sat:0,trans:0,fiber:0,sugar:0,added:0,sodium:0}
+];
+const nutrients=[
+ ['Valor energético','kcal','kcal',2000],['Carboidratos','carb','g',300],['Açúcares totais','sugar','g',null],
+ ['Açúcares adicionados','added','g',50],['Proteínas','protein','g',50],['Gorduras totais','fat','g',65],
+ ['Gorduras saturadas','sat','g',20],['Gorduras trans','trans','g',null],['Fibra alimentar','fiber','g',25],['Sódio','sodium','mg',2000]
+];
+let recipes=loadJSON(DB_KEY,[]), customs=loadJSON(CUSTOM_KEY,[]), currentId=null, ingredients=[];
+const $=id=>document.getElementById(id);
+function loadJSON(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch(e){return f}}
+function persist(){localStorage.setItem(DB_KEY,JSON.stringify(recipes));localStorage.setItem(CUSTOM_KEY,JSON.stringify(customs))}
+function foodList(){return [...baseFoods,...customs]}
+function foodById(id){return foodList().find(x=>x.id===id)}
+function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmt(n,d=1){if(!Number.isFinite(n))return '—';return n.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:d})}
+function addIngredientRow(foodId='',amount=''){
+ const rowId=crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random());
+ ingredients.push({rowId,foodId:foodId||baseFoods[0].id,amount:amount||''}); renderIngredients();
+}
+function renderIngredients(){
+ const box=$('ingredients');box.innerHTML='';
+ ingredients.forEach((it,i)=>{
+  const row=document.createElement('div');row.className='ingredient-row';
+  const sel=document.createElement('select');sel.setAttribute('aria-label','Ingrediente');
+  const groups=[['Base de alimentos',baseFoods],['Meus ingredientes',customs]];
+  groups.forEach(([label,foods])=>{if(!foods.length)return;const og=document.createElement('optgroup');og.label=label;foods.forEach(f=>{const o=document.createElement('option');o.value=f.id;o.textContent=f.name;og.appendChild(o)});sel.appendChild(og)});
+  sel.value=it.foodId;sel.onchange=()=>{it.foodId=sel.value;renderLabel()};
+  const amount=document.createElement('input');amount.type='number';amount.min='0';amount.step='any';amount.placeholder='g';amount.value=it.amount;amount.setAttribute('aria-label','Quantidade em gramas');amount.oninput=()=>{it.amount=amount.value;renderLabel()};
+  const rem=document.createElement('button');rem.className='danger remove';rem.textContent='×';rem.title='Remover ingrediente';rem.onclick=()=>{ingredients.splice(i,1);renderIngredients();renderLabel()};
+  row.append(sel,amount,rem);box.appendChild(row);
+ });
+ renderLabel();
+}
+function readRecipe(){
+ return {id:currentId||('r_'+Date.now()),name:$('recipeName').value.trim(),productType:$('productType').value||'bolo',preparation:$('preparation').value||'na',unitWeight:Number($('unitWeight').value)||0,packageCount:Number($('packageCount').value)||0,yieldGrams:Number($('yieldGrams').value),portionGrams:Number($('portionGrams').value)||60,ingredients:ingredients.map(i=>({foodId:i.foodId,amount:Number(i.amount)||0}))};
+}
+function totalsFor(rec){
+ const t={kcal:0,carb:0,protein:0,fat:0,sat:0,trans:0,fiber:0,sugar:0,added:0,sodium:0};let used=0;
+ rec.ingredients.forEach(it=>{const f=foodById(it.foodId);const g=Number(it.amount)||0;if(!f||g<=0)return;used+=g;Object.keys(t).forEach(k=>t[k]+=(Number(f[k])||0)*g/100)});
+ return {totals:t,used};
+}
+function calculate(rec){
+ const {totals:t,used}=totalsFor(rec);const y=Number(rec.yieldGrams)||used;const p=Number(rec.portionGrams)||60;
+ const per100={},perPortion={};Object.keys(t).forEach(k=>{per100[k]=y>0?t[k]*100/y:0;perPortion[k]=y>0?t[k]*p/y:0});
+ return {t,used,y,p,per100,perPortion,servings:y>0?y/p:0};
+}
+function dailyPct(key,val){const ref=({kcal:2000,carb:300,added:50,protein:50,fat:65,sat:20,fiber:25,sodium:2000})[key];return ref?Math.round(val/ref*100)+'%':'—'}
+function renderLabel(){
+ const rec=readRecipe(),c=calculate(rec);$('labelProduct').textContent=rec.name||'Receita sem nome';
+ const typeNames={bolo:'Bolo inteiro / fatia',salgado:'Salgado de festa',docinho:'Docinho',outro:'Outro produto'};const unit=Number(rec.unitWeight)||0;const pack=Number(rec.packageCount)||0;let packLine=pack>0?'Unidades por embalagem: '+fmt(pack,0):'Porções por embalagem: '+(c.y>0?fmt(c.servings,1):'—');if(unit>0)packLine+=' • Unidade: '+fmt(unit,1)+' g';$('servingText').innerHTML=escapeHTML(typeNames[rec.productType]||typeNames.bolo)+' • '+escapeHTML(({assado:'assado',frito:'frito',cozido:'cozido','sem-preparo':'sem preparo final',na:'preparo não especificado'})[rec.preparation]||'')+'<br>'+packLine+'<br>Porção usada no cálculo: '+fmt(c.p,1)+' g';
+ const rows=[
+  ['Valor energético', 'kcal','kcal',true],['Carboidratos','carb','g'],['Açúcares totais','sugar','g'],['Açúcares adicionados','added','g'],
+  ['Proteínas','protein','g'],['Gorduras totais','fat','g'],['Gorduras saturadas','sat','g'],['Gorduras trans','trans','g'],['Fibra alimentar','fiber','g'],['Sódio','sodium','mg']
+ ];
+ const tbody=$('nutriTable').querySelector('tbody');tbody.innerHTML='';
+ const head=$('nutriTable').querySelector('thead');head.innerHTML='<tr><th>Quantidade por porção</th><th>Porção</th><th>100 g</th><th>%VD*</th></tr>';
+ rows.forEach(([label,key,unit,energy])=>{const tr=document.createElement('tr');if(energy)tr.className='energy';const v1=key==='kcal'?Math.round(c.perPortion.kcal):c.perPortion[key];const v100=key==='kcal'?Math.round(c.per100.kcal):c.per100[key];const cell1=key==='sodium'?fmt(v1,1):fmt(v1,1);const cell100=fmt(v100,1);const pct=dailyPct(key,c.perPortion[key]);tr.innerHTML=`<td>${label}</td><td>${fmt(v1,1)} ${unit}</td><td>${cell100} ${unit}</td><td>${pct}</td>`;tbody.appendChild(tr)});
+ if(!rec.ingredients.length||!rec.ingredients.some(x=>Number(x.amount)>0)){tbody.innerHTML='<tr><td colspan="3">Adicione ingredientes e quantidades para calcular.</td></tr>'}
+}
+function renderSaved(){
+ const box=$('savedRecipes');box.innerHTML='';
+ if(!recipes.length){box.innerHTML='<p class="small">Nenhuma receita salva ainda.</p>';return}
+ recipes.slice().sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')).forEach(r=>{
+  const wrap=document.createElement('div');wrap.className='saved-item';
+  const open=document.createElement('button');open.innerHTML=`<b>${escapeHTML(r.name||'Receita sem nome')}</b><div class="sub">${r.ingredients.length} ingrediente(s) • porção ${fmt(r.portionGrams||60,0)} g</div>`;open.onclick=()=>loadRecipe(r.id);
+  const del=document.createElement('button');del.className='danger';del.textContent='Excluir';del.onclick=()=>{if(confirm('Excluir a receita "'+(r.name||'sem nome')+'"?')){recipes=recipes.filter(x=>x.id!==r.id);if(currentId===r.id)newRecipe();persist();renderSaved()}};
+  wrap.append(open,del);box.appendChild(wrap);
+ });
+}
+function loadRecipe(id){const r=recipes.find(x=>x.id===id);if(!r)return;currentId=r.id;$('recipeName').value=r.name||'';$('productType').value=r.productType||'bolo';$('preparation').value=r.preparation||'na';$('unitWeight').value=r.unitWeight||'';$('packageCount').value=r.packageCount||'';$('yieldGrams').value=r.yieldGrams||'';$('portionGrams').value=r.portionGrams||60;ingredients=r.ingredients.map(x=>({rowId:Math.random().toString(36),foodId:x.foodId,amount:x.amount}));renderIngredients();$('status').textContent='Receita carregada para edição.'}
+function newRecipe(){currentId=null;$('recipeName').value='';$('productType').value='bolo';$('preparation').value='na';$('unitWeight').value='';$('packageCount').value='';$('yieldGrams').value='';$('portionGrams').value=60;ingredients=[];addIngredientRow();$('status').textContent='Nova receita pronta.'}
+function saveRecipe(){
+ const r=readRecipe();if(!r.name){alert('Digite um nome para a receita.');return}if(!r.ingredients.some(x=>x.amount>0)){alert('Adicione pelo menos um ingrediente com quantidade.');return}
+ if(!r.yieldGrams){const used=totalsFor(r).used;if(confirm('Você não informou o peso final. Usar a soma dos ingredientes ('+fmt(used,0)+' g) como aproximação?'))r.yieldGrams=used;else return}
+ const idx=recipes.findIndex(x=>x.id===r.id);if(idx>=0)recipes[idx]=r;else recipes.push(r);currentId=r.id;persist();renderSaved();renderLabel();$('status').textContent='Receita salva neste navegador.';
+}
+function addCustom(){
+ const name=$('customName').value.trim();if(!name){alert('Informe o nome do ingrediente.');return}
+ const f={id:'c_'+Date.now(),name};[['kcal','cKcal'],['carb','cCarb'],['protein','cProtein'],['fat','cFat'],['sat','cSat'],['trans','cTrans'],['fiber','cFiber'],['sugar','cSugar'],['added','cAdded'],['sodium','cSodium']].forEach(([k,id])=>f[k]=Number($(id).value)||0);
+ customs.push(f);persist();$('customName').value='';['cKcal','cCarb','cProtein','cFat','cSat','cTrans','cFiber','cSugar','cAdded','cSodium'].forEach(id=>$(id).value='');renderIngredients();$('status').textContent='Ingrediente personalizado salvo.';
+}
+function exportBackup(){const blob=new Blob([JSON.stringify({recipes,customs},null,2)],{type:'application/json'});downloadBlob(blob,'nutribolo-backup.json')}
+function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+function importBackup(file){const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!Array.isArray(data.recipes)||!Array.isArray(data.customs))throw Error();if(!confirm('Importar backup e substituir receitas e ingredientes atuais?'))return;recipes=data.recipes;customs=data.customs;persist();renderSaved();renderIngredients();$('status').textContent='Backup importado.'}catch(e){alert('Arquivo de backup inválido.')}};reader.readAsText(file)}
+function downloadPNG(){
+ const el=$('nutritionLabel');const rect=el.getBoundingClientRect();const scale=3;
+ const canvas=document.createElement('canvas');canvas.width=Math.ceil(rect.width*scale);canvas.height=Math.ceil(rect.height*scale);
+ const ctx=canvas.getContext('2d');ctx.scale(scale,scale);ctx.fillStyle='#fff';ctx.fillRect(0,0,rect.width,rect.height);
+ // Render text/table directly to canvas for reliable PNG export.
+ const name=$('labelProduct').textContent,serving=$('servingText').innerText;
+ const table=$('nutriTable'),rows=[...table.querySelectorAll('tr')].map(tr=>[...tr.children].map(td=>td.innerText));
+ let y=22;const x=14,w=rect.width-28;
+ ctx.fillStyle='#111';ctx.textBaseline='top';ctx.font='900 24px Arial';ctx.fillText('INFORMAÇÃO NUTRICIONAL',x,y);y+=31;
+ ctx.font='11px Arial';wrapText(ctx,name,x,y,w);y+=24;ctx.fillRect(x,y,w,7);y+=12;
+ ctx.font='12px Arial';serving.split('\n').forEach(line=>{ctx.fillText(line,x,y);y+=16});ctx.fillRect(x,y,w,2);y+=4;
+ const col=[x,x+w*.49,x+w*.70,x+w*.86,x+w];ctx.font='bold 10px Arial';ctx.fillText('Nutriente',col[0],y);ctx.textAlign='right';ctx.fillText('Porção',col[2]-3,y);ctx.fillText('100 g',col[3]-3,y);ctx.fillText('%VD*',col[4]-2,y);ctx.textAlign='left';y+=17;ctx.fillRect(x,y,w,2);y+=2;
+ rows.slice(1).forEach((r,i)=>{const label=r[0]||'';ctx.font=(i===0?'bold ':'')+'12px Arial';ctx.fillText(label,x,y);ctx.textAlign='right';ctx.font='12px Arial';ctx.fillText(r[1]||'',col[2]-3,y);ctx.fillText(r[2]||'',col[3]-3,y);ctx.fillText(r[3]||'',col[4]-2,y);ctx.textAlign='left';y+=22;ctx.fillStyle='#999';ctx.fillRect(x,y-2,w,.6);ctx.fillStyle='#111'});
+ y+=5;ctx.font='9px Arial';const foot='*Percentual de valores diários fornecidos pela porção. Valores estimados com base nos dados cadastrados; confirme critérios e arredondamentos conforme normas vigentes da Anvisa.';wrapText(ctx,foot,x,y,w,12);
+ const finalCanvas=document.createElement('canvas');finalCanvas.width=canvas.width;finalCanvas.height=Math.ceil((y+50)*scale);finalCanvas.getContext('2d').drawImage(canvas,0,0);
+ finalCanvas.toBlob(blob=>{if(blob)downloadBlob(blob,(($('recipeName').value.trim()||'tabela-nutricional').replace(/[^a-z0-9_-]+/gi,'-'))+'.png')});
+}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight=13){const words=String(text).split(/\s+/);let line='';for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxWidth&&line){ctx.fillText(line,x,y);line=word;y+=lineHeight}else line=test}if(line)ctx.fillText(line,x,y)}
+$('addIngredient').onclick=()=>addIngredientRow();
+$('saveRecipe').onclick=saveRecipe;$('newRecipe').onclick=newRecipe;$('addCustom').onclick=addCustom;
+$('exportBackup').onclick=exportBackup;$('importBackupBtn').onclick=()=>$('importBackup').click();$('importBackup').onchange=e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''};
+$('downloadPng').onclick=downloadPNG;$('printLabel').onclick=()=>window.print();
+['recipeName','yieldGrams','portionGrams','unitWeight','packageCount'].forEach(id=>$(id).addEventListener('input',renderLabel));['productType','preparation'].forEach(id=>$(id).addEventListener('change',renderLabel));
+renderSaved();addIngredientRow();
+</script>
+</body>
+</html>
